@@ -281,6 +281,21 @@
  * -----------------------------
  */
 
+  /**
+ * Player Class Method => equippedWith()
+ * -----------------------------
+ * Player checks their equipment.
+ *
+ * Prints the player's name and equipped weapon's name.
+ * If nothing is equipped, prints a message saying so.
+ * Also returns the equipped weapon's name or false if nothing is equipped.
+ * You should be able to invoke this function on a Player instance.
+ *
+ * @name equippedWith
+ * @return {string/boolean}   Weapon name or false if nothing is equipped.
+ */
+
+
 
 class Item {
   constructor(name) {
@@ -420,10 +435,10 @@ class Player {
 
  useItem(item){
   var thisItem = this.getPack().indexOf(item);
-  if (item instanceof Weapon) {
+  if (item instanceof Weapon && thisItem !== -1) {
     this._pack.splice(thisItem, 1);
     this.equipped = item;
-  } else if (item instanceof Food){
+  } else if (item instanceof Food  && thisItem !== -1){
     var myHealth = this.health + item.energy;
     if (myHealth < this.getMaxHealth()){
       this.health = myHealth;
@@ -433,20 +448,6 @@ class Player {
     this._pack.splice(thisItem, 1);
   }
  }
-
- /**
- * Player Class Method => equippedWith()
- * -----------------------------
- * Player checks their equipment.
- *
- * Prints the player's name and equipped weapon's name.
- * If nothing is equipped, prints a message saying so.
- * Also returns the equipped weapon's name or false if nothing is equipped.
- * You should be able to invoke this function on a Player instance.
- *
- * @name equippedWith
- * @return {string/boolean}   Weapon name or false if nothing is equipped.
- */
 
  equippedWith() {
   let eq = this.equipped;
