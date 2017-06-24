@@ -1,3 +1,6 @@
+
+/*jshint esversion: 6 */
+
 /**
  * Class => Item(name)
  * -----------------------------
@@ -50,12 +53,10 @@
  */
 
 
-/**
+ /**
  * Food Extends Item Class
  * -----------------------------
  */
-
-
 
 /**
  * Class => Player(name, health, strength, speed)
@@ -79,6 +80,46 @@
  * @property {method} getMaxHealth         Returns private variable `maxHealth`.
  */
 
+class Item {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+class Weapon extends Item {
+
+  constructor(name, damage){
+    super(name);
+    this.damage = damage;
+  }
+}
+
+class Food extends Item {
+  constructor(name, energy) {
+    super(name);
+    this.energy = energy;
+  }
+}
+
+class Player {
+  constructor(name, health, strength, speed) {
+    this._pack = [];
+    this._maxHealth = health;
+    this.name = name;
+    this.health = health;
+    this.strength = strength;
+    this.speed = speed;
+    this.isAlive = true;
+    this.equipped = false;
+  }
+
+  getPack() {
+    return this._pack;
+  }
+
+  getMaxHealth() {
+    return this._maxHealth;
+  }
 
 /**
  * Player Class Method => checkPack()
@@ -92,6 +133,11 @@
  * @name checkPack
  */
 
+  checkPack() {
+    for (var item in this.getPack()) {
+      console.log(item.name);
+    }
+  }
 
 /**
  * Player Class Method => takeItem(item)
@@ -111,6 +157,16 @@
  * @return {boolean} true/false     Whether player was able to store item in pack.
  */
 
+  takeItem(item) {
+    if (this.getPack().length > 2) {
+      console.log("Your pack is full so the item could not be stored.");
+      return false;
+    } else {
+      this._pack.push(item);
+      console.log(this.name + " stored " + item.name + " and length is now " + this.getPack().length)
+      return true;
+    }
+  }
 
 /**
  * Player Class Method => discardItem(item)
@@ -138,8 +194,19 @@
  * @return {boolean} true/false     Whether player was able to remove item from pack.
  */
 
+ discardItem(item) {
+  var myItem = this._pack.indexOf(item.name);
+  if (myItem !== -1 ) {
+    this._pack.splice(myItem, 1);
+    console.log(item.name + " was removed.")
+    return true;
+  } else {
+    console.log(item.name + " was not in the pack.")
+    return false;
+  }
+ }
 
-/**
+ /**
  * Player Class Method => equip(itemToEquip)
  * -----------------------------
  * Player equips a weapon item.
@@ -159,8 +226,14 @@
  * @param {Weapon} itemToEquip  The weapon item to equip.
  */
 
+ equip(itemToEquip){
 
-/**
+
+  }
+
+ }
+
+ /**
  * Player Class Method => eat(itemToEat)
  * -----------------------------
  * Player eats a food item, restoring their health.
@@ -179,6 +252,9 @@
  * @param {Food} itemToEat  The food item to eat.
  */
 
+ eat(itemToEat) {
+
+ }
 
 /**
  * Player Class Method => useItem(item)
@@ -194,7 +270,11 @@
  */
 
 
-/**
+ useItem(item){
+
+ }
+
+ /**
  * Player Class Method => equippedWith()
  * -----------------------------
  * Player checks their equipment.
@@ -207,6 +287,22 @@
  * @name equippedWith
  * @return {string/boolean}   Weapon name or false if nothing is equipped.
  */
+
+
+ equippedWith() {
+
+ }
+
+
+}
+
+
+
+
+
+
+
+
 
 
 /**
