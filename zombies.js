@@ -1,4 +1,3 @@
-
 /*jshint esversion: 6 */
 
 /**
@@ -33,7 +32,6 @@
  * Weapon Extends Item Class
  * -----------------------------
  */
-
 
 
 /**
@@ -119,7 +117,25 @@
  */
 
 
-
+ /**
+ * Player Class Method => equip(itemToEquip)
+ * -----------------------------
+ * Player equips a weapon item.
+ *
+ * Player can only equip Weapon instances.
+ * Player can only equip weapon items from their pack.
+ *
+ * If the player already has a weapon equipped (the equipped property
+ *   is set to an Item), find the itemToEquip in the pack and replace
+ *   it with the currently equipped item.  Then set the equipped property
+ *   to the itemToEquip.
+ * However, if the player doesn't already have a weapon equipped, simply
+ *   equip that item and remove it from the pack.
+ * You should be able to invoke this function on a Player instance.
+ *
+ * @name equip
+ * @param {Weapon} itemToEquip  The weapon item to equip.
+ */
 
  /**
  * Player Class Method => takeItem(item)
@@ -172,9 +188,6 @@
  * @name eat
  * @param {Food} itemToEat  The food item to eat.
  */
-
-
-
 
 
 /**
@@ -296,7 +309,6 @@
  */
 
 
-
 class Item {
   constructor(name) {
     this.name = name;
@@ -371,26 +383,6 @@ class Player {
   }
  }
 
- /**
- * Player Class Method => equip(itemToEquip)
- * -----------------------------
- * Player equips a weapon item.
- *
- * Player can only equip Weapon instances.
- * Player can only equip weapon items from their pack.
- *
- * If the player already has a weapon equipped (the equipped property
- *   is set to an Item), find the itemToEquip in the pack and replace
- *   it with the currently equipped item.  Then set the equipped property
- *   to the itemToEquip.
- * However, if the player doesn't already have a weapon equipped, simply
- *   equip that item and remove it from the pack.
- * You should be able to invoke this function on a Player instance.
- *
- * @name equip
- * @param {Weapon} itemToEquip  The weapon item to equip.
- */
-
  equip(itemToEquip){
   if (itemToEquip instanceof Weapon) {
     var itemNo = this._pack.indexOf(itemToEquip);
@@ -403,13 +395,8 @@ class Player {
       //equip that item and remove it from the pack.
       console.log("Nothing equipped so equipping " + itemToEquip.name);
       this._pack.splice(itemNo, 1);
-      //this._pack.push(itemToEquip);
       this.equipped = itemToEquip;
     } else if (this.equipped !== false) {
-       // If the player already has a weapon equipped (the equipped property
-       //is set to an Item), find the itemToEquip in the pack and replace
-       //it with the currently equipped item.  Then set the equipped property
-       //to the itemToEquip.
       var newItem = this._pack.indexOf(itemToEquip);
       console.log("Grabbing the " + this._pack[newItem].name);
       this._pack.splice(newItem, 1);
@@ -424,8 +411,8 @@ class Player {
   var itemNo = this._pack.indexOf(itemToEat);
   if (itemToEat instanceof Food && itemNo !== -1) {
     this._pack.splice(itemNo, 1);
-    var myHealth = this.health + this.energy;
-    if (myHealth < this.getMaxHealth()){
+    var myHealth = this.health + itemToEat.energy;
+    if (myHealth <= this.getMaxHealth()) {
       this.health = myHealth;
     } else {
       this.health = this.getMaxHealth();
@@ -436,16 +423,9 @@ class Player {
  useItem(item){
   var thisItem = this.getPack().indexOf(item);
   if (item instanceof Weapon && thisItem !== -1) {
-    this._pack.splice(thisItem, 1);
-    this.equipped = item;
+    this.equip(item);
   } else if (item instanceof Food  && thisItem !== -1){
-    var myHealth = this.health + item.energy;
-    if (myHealth < this.getMaxHealth()){
-      this.health = myHealth;
-    } else {
-      this.health = this.getMaxHealth();
-    }
-    this._pack.splice(thisItem, 1);
+    this.eat(item);
   }
  }
 
